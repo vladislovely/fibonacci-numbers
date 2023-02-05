@@ -4,19 +4,48 @@
 
 Стек микросервиса: lumen(PHP 8.2) + redis + nginx
 
-Перед тем как начать: cp .env.example .env
+## Installation
 
-Доступные запросы:
 
-**GET /fibonacci**
-Получение ряда чисел Фибоначчи
-
-Принимает 2 параметра from and to, если не передать вернется весь ряд чисел, до 19 значной длины числа
-
-Accepts:
+```bash
+cp .env.example .env
 ```
+
+## Usage
+
+#### Получение ряда Фибоначчи:
+
+```http request
+GET http://localhost/fibonacci
+
+Content-Type: application/json
+```
+
+Params
+```json
 {
-    from int = начало выборки
-    to int = конец выборки
+  "from": "integer|min 0",
+  "to": "integer|min 1"
+}
+```
+
+Success response:
+```json
+{
+  "message": "success",
+  "set_of_numbers": [2, 3, 5],
+  "fibonacci_set_of_numbers": [0, 1, 1, 2, 3, 5, 8, 13, 21]
+}
+```
+
+Validation error example:
+```json
+{
+    "from": [
+        "The from must be an integer."
+    ],
+    "to": [
+        "The to must be an integer."
+    ]
 }
 ```
