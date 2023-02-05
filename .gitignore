@@ -1,0 +1,10 @@
+.*
+!.gitignore
+!.yamllint
+.env
+.phpunit.result.cache
+/.idea
+/storage/
+/vendor
+Homestead.json
+Homestead.yaml
