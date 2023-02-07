@@ -1,6 +1,6 @@
 # Fibonacci numbers service
 
-Сервис возвращает ряд чисел Фибоначчи
+Сервис возвращает ряд чисел Фибоначчи из предложенного среза чисел, например из ряда от 10 до 10 вернется единственное число 55
 
 Стек микросервиса: lumen(PHP 8.2) + redis + nginx
 
@@ -21,7 +21,7 @@ GET http://localhost/fibonacci
 Content-Type: application/json
 ```
 
-Params
+Accept params
 ```json
 {
   "from": "integer|min 0|required",
