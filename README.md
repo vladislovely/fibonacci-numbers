@@ -24,8 +24,8 @@ Content-Type: application/json
 Params
 ```json
 {
-  "from": "integer|min 0",
-  "to": "integer|min 1"
+  "from": "integer|min 0|required",
+  "to": "integer|min 1|required"
 }
 ```
 
