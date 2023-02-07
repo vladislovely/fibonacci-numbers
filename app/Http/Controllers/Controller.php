@@ -12,7 +12,6 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     private const STATUS_SUCCESS = 'success';
-    private const STATUS_FROM_OR_TO_IS_NOT_PASSED = 'from or to is not passed, returned all set of numbers Fibonacci';
 
     final public function index(): string
     {
@@ -31,39 +30,29 @@ class Controller extends BaseController
     final public function calculate(Request $request): JsonResponse
     {
         $this->validate($request, [
-            'from' => 'integer|min:0',
-            'to'   => 'integer|min:1',
+            'from' => 'integer|min:0|required',
+            'to'   => 'integer|min:0|required',
         ]);
 
-        $from = (int)$request->get('from');
-        $to   = (int)$request->get('to');
+        $from = $request->integer('from');
+        $to   = $request->integer('to');
 
         $response = new JsonResponse();
 
         $data = $this->getFibonacciRow();
 
-        if (!$from || !$to) {
-            $response->setData([
-                'message'                  => self::STATUS_FROM_OR_TO_IS_NOT_PASSED,
-                'set_of_numbers'           => [],
-                'fibonacci_set_of_numbers' => $data
-            ]);
-
-            return $response;
-        }
-
         $result = [];
 
-        foreach ($data as $item) {
-            if ($from <= $item && $to >= $item) {
-                $result[] = $item;
+        foreach ($data as $key => $value) {
+            if ($from <= $key && $to >= $key) {
+                $result[] = $value;
             }
         }
 
         $response->setData([
             'message'                  => self::STATUS_SUCCESS,
             'set_of_numbers'           => $result,
-            'fibonacci_set_of_numbers' => $data
+            'source' => $data
         ]);
 
         return $response;
@@ -79,7 +68,7 @@ class Controller extends BaseController
     {
         $key = 'fibonacci_row';
 
-        $expiresAt = Carbon::now()->addMonth();
+        $expiresAt = Carbon::now()->addYears(10);
 
         return Cache::remember($key, $expiresAt, static function () {
             $result = [];
